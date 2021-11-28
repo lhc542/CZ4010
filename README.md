@@ -64,4 +64,5 @@ This project is a simple implementation of CA for demonstrating purposes only. T
 ### Trust-worthy
 This implementation generated a root CA that is self-signed. This means that there is no other trusted 3rd party who sign this certificate and other entities will not trust this certificate. For commercial purposes, one need to generate key pairs and send to trusted CAs to get a certificate.
 ### Security
-Furthermore, the verification of certificate in this project is not secured. This is due to the fact that verification of certificate is a much more complex problem than simple matching between the signature and CA's public key. It needs to consider many other information such as User's identity, validation period, dates of creation
+Furthermore, the verification of certificate in this project is not secured. This is due to the fact that verification of certificate is a much more complex problem than simple matching between the signature and CA's public key. It needs to consider many other information such as User's identity, validation period, dates of creation...etc  
+For better security, implement with external libraries such as https://github.com/wbond/certvalidator
