@@ -25,6 +25,36 @@ Advantages:
 # Be your own CA
 Usually certificates are signed by trust-worthy authorities(for example, IdenTrust and DigiCert) to ensure that others also trust this certificate. However, sometimes it is useful to create self-signed certificate as it might be costly to get a trusted certificate. This is especially useful for demonstration and testing purposes.
 # Implementation in Python
-There are existing software available(For example, openSSL) for easy implementation of Certificate Authority on desktop. However, being one of the most commonly-used programming languages worldwide, Implementing CA in Python will surely benifit more people as it allows easy implementation of CA without the need of downloading additional softwares, and also allows easy integration with other existing python projects.  
+There are existing software available(For example, OpenSSL) for easy implementation of Certificate Authority on desktop. However, being one of the most commonly-used programming languages worldwide, Implementing CA in Python will surely benifit more people as it allows easy implementation of CA without the need of downloading additional softwares, and also allows easy integration with other existing python projects.  
   
 This project is implemented using Python Cryptography library, which is based on OpenSSL functions.
+
+# 3. Design and implementation
+Cryptography library:  
+cryptography includes both high level recipes and low level interfaces to common cryptographic algorithms such as symmetric ciphers, message digests, and key derivation functions. https://cryptography.io/en/latest
+  
+X.509:  
+X.509 is an ITU-T standard for a public key infrastructure. https://cryptography.io/en/latest/x509/
+  
+generate_root_ca(name,password):  
+Generate self-signed root certificate using "name" as the name indicated in the certificate as well as file names, "password" as the password for symmetric encryption of the private key of root CA.  
+At the same time, create an empty Certificate Revocation List(CRL) for future revocation.  
+  
+generate_intermediate_ca(name,password,ca_name,ca_password):  
+Generate intermediate certificate signed by root certificate.  using "ca_name" as the name indicated in the certificate as well as file names, "ca_password" as the password for symmetric encryption of the private key of root CA. "name" and "password" refer to that of root CA to get its private key for signature.  
+  
+issue_cert(name,ica,ica_password)  
+Generate client certificate signed by intermediate CA.  using "name" as the name indicated in the certificate as well as file names, without encryption to the private key. "ica" and "ica_password" refer to that of intermediate CA to get its private key for signature.   
+  
+revoke_cert(name,password)  
+Revoke issued certificate. "name" indicates the certificate to be revoked and "password" is that of the root CA to generate another CRL object.  
+  
+verify_cert(issuer,certname)  
+Verify a certificate with its issuer. "certname" indicates the certificate to be verified and "issuer" indicates the CA that issue this certificate. This function will be called twice tro verify both client certificate with ica and ica with root ca  
+  
+Main driver: Enter  
+1.Generate root CA  
+2.generate intermediate CA  
+3.Issue a certificate  
+4.Verify a certificate  
+5.Revoke a certificate  
